@@ -214,10 +214,16 @@ function mediaPlayer(playerid) {
 			//set classes to show the expand button
 			fullscreen.classList.remove("face-restore");
 			fullscreen.classList.add("face-expand");
+
+			//remove the in-fullscreen class
+			mediaPlayer.classList.remove('in-fullscreen');
 		} else {
 			//set classes to show the restore button
 			fullscreen.classList.remove("face-expand");
 			fullscreen.classList.add("face-restore");
+
+			//add a class to the media player so the CSS knows that the media is in fullscreen
+			mediaPlayer.classList.add('in-fullscreen');
 		}
 	}
 
@@ -229,7 +235,6 @@ function mediaPlayer(playerid) {
 		}
 
 		if(!isFullScreen()) {
-			console.log('media is not in fullscreen');
 			//so we enable fullscreen
 			//here we'll test for the requestFullscreen method. Older versions of Firefox and Webkit browsers will use their proprietary versions with "moz" and "webkit" prefixes
 			if (mediaPlayer.requestFullscreen) {
@@ -241,12 +246,7 @@ function mediaPlayer(playerid) {
 			} else if(mediaPlayer.msRequestFullscreen) {
 				mediaPlayer.msRequestFullscreen();
 			}
-
-			//add a class to the media player so the CSS knows that the media is in fullscreen
-			mediaPlayer.classList.add('in-fullscreen');
 		} else {
-			console.log('media is in fullscreen');
-
 			//so we cancel fullscreen
 			if(document.exitFullscreen) {
 				document.exitFullscreen();
@@ -257,9 +257,6 @@ function mediaPlayer(playerid) {
 			} else if(document.msExitFullscreen) {
 				document.msExitFullscreen();
 			}
-
-			//remove the in-fullscreen class
-			mediaPlayer.classList.remove('in-fullscreen');
 		}
 
 		configFullScreenButton();
@@ -272,16 +269,16 @@ function mediaPlayer(playerid) {
 
 	//set event listeners for each browser, so the fullscreen button responds to other changes, like the user pressing ESC to exit full screen
 	document.addEventListener('fullscreenchange', function(e) {
-	   setFullscreenData((document.fullScreen || document.fullscreenElement));
+	   configFullScreenButton();
 	});
 	document.addEventListener('webkitfullscreenchange', function() {
-	   setFullscreenData(document.webkitIsFullScreen);
+	   configFullScreenButton();
 	});
 	document.addEventListener('mozfullscreenchange', function() {
-	   setFullscreenData(document.mozFullScreen);
+	   configFullScreenButton();
 	});
 	document.addEventListener('MSFullscreenChange', function() {
-	   setFullscreenData(!!document.msFullscreenElement);
+	   configFullScreenButton();
 	});
 	
 }
