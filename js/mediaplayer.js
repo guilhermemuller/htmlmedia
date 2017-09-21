@@ -140,6 +140,9 @@ function mediaPlayer(playerid) {
 		mute.classList.remove("face-vol-full");
 
 		//only add correct class according to the media volume
+
+		console.log(currentVolume);
+
 		if(currentVolume <= 0 || media.muted) {
 			mute.classList.add("face-vol-mute");
 		} else if(currentVolume > 0 && currentVolume < 0.6) {
@@ -157,10 +160,10 @@ function mediaPlayer(playerid) {
 			media.muted = false;
 
 			//set the value of the volume slider to the stored currentVolume
-			volume.value = currentVolume;
+			volume.value = currentVolume * 100;
 		} else {
 			//store the current volume for later
-			currentVolume = volume.value;
+			currentVolume = volume.value / 100;
 
 			//mute the media
 			media.muted = true;
