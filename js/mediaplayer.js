@@ -181,6 +181,9 @@ function mediaPlayer(playerid) {
 
 	//set the event listener for the volume slider
 	volume.addEventListener("change", function() {
+		// unmute media
+		media.muted = false;
+		
 		//store volume in a variable and set the volume value accordingly
 		//we need to divide the value by 100 since the media.volume property only accepts a value between 0 and 1, 0 being mute and 1 being full volume
 		currentVolume = media.volume = this.value/100;
